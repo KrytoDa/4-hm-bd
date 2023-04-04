@@ -20,9 +20,13 @@ GROUP BY album_title;
 
 SELECT p.perfomer_name AS Исполнители
 FROM perfomers p 
-LEFT JOIN  albumsperfomers a  ON a.perfomer_id = p.perfomer_id
-LEFT JOIN albums a2 ON a.album_id = a2.album_id
-WHERE date_part('year', release_date) != 2020;
+WHERE p.perfomer_name NOT IN ( 
+	SELECT perfomer_name
+	FROM perfomers  
+	LEFT JOIN  albumsperfomers a  ON a.perfomer_id = p.perfomer_id
+	LEFT JOIN albums a2 ON a.album_id = a2.album_id
+	WHERE date_part('year', release_date) = 2020
+);
 
 --------------------------5 запрос-------------------------------------------------------------
 
@@ -46,7 +50,7 @@ LEFT JOIN perfomers p  ON a1.perfomer_id = p.perfomer_id
 LEFT JOIN  genresperfomers ge  ON ge.perfomer_id = p.perfomer_id
 LEFT JOIN genres g  ON ge.genres_id = g.genres_id
 GROUP BY a.album_title, ge.genres_id
-HAVING ge.genres_id > 1;
+HAVING COUNT(ge.genres_id) > 1;
 
 
 --------------------------7 запрос-------------------------------------------------------------
@@ -73,8 +77,12 @@ WHERE t.duration = (SELECT MIN(duration) FROM tracks);
 
 --------------------------9 запрос-------------------------------------------------------------
 
-SELECT a.album_title, COUNT(track_id) count
-FROM albums a 
-LEFT JOIN tracks t  ON a.album_id = t.album_id
-GROUP BY a.album_title 
-ORDER BY count
+SELECT a.album_title
+FROM albums a  JOIN tracks t  ON a.album_id = t.album_id
+GROUP BY a.album_id 
+HAVING COUNT(track_id) = (
+	SELECT COUNT(track_id) FROM tracks 
+	GROUP BY album_id 
+	ORDER BY 1
+	LIMIT 1
+);
