@@ -47,10 +47,8 @@ SELECT a.album_title AS Название_альбома
 FROM albums a
 LEFT JOIN  albumsperfomers a1  ON a1.album_id = a.album_id
 LEFT JOIN perfomers p  ON a1.perfomer_id = p.perfomer_id
-LEFT JOIN  genresperfomers ge  ON ge.perfomer_id = p.perfomer_id
-LEFT JOIN genres g  ON ge.genres_id = g.genres_id
-GROUP BY a.album_title, ge.genres_id
-HAVING COUNT(ge.genres_id) > 1;
+GROUP BY a.album_id
+HAVING COUNT(p.perfomer_id) > 1;
 
 
 --------------------------7 запрос-------------------------------------------------------------
