@@ -38,7 +38,7 @@ CREATE TABLE IF NOT EXISTS Tracks
 	track_id int primary key,
 	album_id INTEGER NOT NULL REFERENCES Albums(album_id),
 	track_title VARCHAR(60),
-	duration DECIMAL(8,2) NOT NULL
+	duration INT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS Collections 
