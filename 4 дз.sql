@@ -56,7 +56,6 @@ HAVING COUNT(p.perfomer_id) > 1;
 SELECT distinct t.track_title AS Трек_без_сборника
 FROM tracks t 
 LEFT JOIN  collectiontracks co  ON co.track_id = t.track_id 
-LEFT JOIN collections c   ON co.collection_id = c.collection_id
 WHERE co.track_id IS NULL
 ORDER BY t.track_title; 
 
