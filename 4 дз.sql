@@ -42,14 +42,13 @@ WHERE perfomer_name = 'Король и шут';
 
 --------------------------6 запрос-------------------------------------------------------------
 
-
-SELECT a.album_title AS Название_альбома
+SELECT DISTINCT a.album_title AS Название_альбома
 FROM albums a
 LEFT JOIN  albumsperfomers a1  ON a1.album_id = a.album_id
 LEFT JOIN perfomers p  ON a1.perfomer_id = p.perfomer_id
-GROUP BY a.album_id
-HAVING COUNT(p.perfomer_id) > 1;
-
+LEFT JOIN  genresperfomers g   ON g.perfomer_id = p.perfomer_id
+GROUP BY a.album_id, g.perfomer_id 
+HAVING COUNT(g.genres_id) > 1;
 
 --------------------------7 запрос-------------------------------------------------------------
 
